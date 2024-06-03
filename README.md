@@ -1,100 +1,118 @@
 # JEDHA-Projet-2-Kayak
 
-L'équipe marketing de Kayak souhaite développer une application qui aide les utilisateurs à planifier leur prochaine destination de vacances. Cette application utilisera des données en temps réel sur les conditions météorologiques et la disponibilité des hôtels dans divers endroits. En analysant ces variables, l'application fournira des recommandations personnalisées pour les meilleures destinations et hôtels à tout moment.
+## Company's description
+Kayak is a travel search engine that helps user plan their next trip at the best price.
 
-## Objectifs 🎯
-☁️ Utiliser des données météorologiques de différentes ville à partir d'une API.
-🏨 Récupérer les données enrichies des hôtels sur le site de booking.
-📂 Livrer des résultats incluant des données enrichies dans un DataLake, une intégration avec une base de données, et des cartes interactives présentant les meilleures destinations et hôtels.
+The company was founded in 2004 by Steve Hafner & Paul M. English. After a few rounds of fundraising, Kayak was acquired by Booking Holdings which now holds:
 
-## Fonctionnalités ⚙️
-- **Analyse Météorologique**: Le script analysera les conditions météorologiques actuelles dans différentes destinations pour suggérer des endroits avec des climats favorables.
-- **Disponibilité des Hôtels**: Les données d'hôtels en temps réel seront utilisées pour recommander des hébergements en fonction des préférences, du nombre et de la disponibilité des utilisateurs.
-- **Personnalisation**: Les utilisateurs auront la possibilité de personnaliser leurs critères de recherche, tels que le climat préféré, le budget et les dates de voyage, pour des recommandations plus précises.
+Booking.com
+Kayak
+Priceline
+Agoda
+RentalCars
+OpenTable
 
-## Livrables 📬
-1. **Données Enrichies**: Un fichier .csv contenant des informations enrichies sur la météo et les hôtels pour chaque ville française sera stocké dans un bucket S3.
-2. **Base de Données SQL**: Les données nettoyées du bucket S3 seront intégrées dans une base de données SQL (AWS RDS) pour un accès et une récupération faciles.
-3. **Cartes Interactives**: Deux cartes interactives seront créées en utilisant Plotly ou des bibliothèques similaires :
-   - **Top 5 des Destinations**: Affichage des cinq meilleures destinations recommandées en fonction des préférences des utilisateurs et de l'analyse des données.
-   - **Top 20 des Hôtels**: Présentation des vingt meilleurs hôtels de la région en fonction de la disponibilité, des évaluations des utilisateurs et d'autres facteurs pertinents.
+With over $300 million revenue a year, Kayak operates in almost all countries and all languages to help their users book travels accros the globe.
 
-## Structure
-```
-JEDHA-Projet-2-Kayak/ 
-│ 
-├── .gitignore 
-├── API_city_weather.ipynb 
-├── API_key.txt 
-├── config.py 
-├── config.yaml 
-├── DataLake_ETL.ipynb 
-├── main.ipynb 
-├── main_scrap.py 
-├── planning_projet.xlsx 
-├── README.md 
-├── .git/ 
-│   ├── (Git-related files and directories) 
-│ 
-├── DataLake_DataWarehouse_screen/ 
-│   ├── (Image files) 
-│ 
-├── datas/ 
-│   ├── city.csv 
-│   ├── Data_Enriched_Weather_Hotel_French_Cities.csv 
-│   └── hotel_saved.json 
-│ 
-├── hotel_crawler/ 
-│   ├── (Scrapy project for hotel crawling) 
-│ 
-└── url_crawler/ 
-    ├── (Scrapy project for URL crawling) 
-```
+## Project 🚧
+The marketing team needs help on a new project. After doing some user research, the team discovered that 70% of their users who are planning a trip would like to have more information about the destination they are going to.
+
+In addition, user research shows that people tend to be defiant about the information they are reading if they don't know the brand which produced the content.
+
+Therefore, Kayak Marketing Team would like to create an application that will recommend where people should plan their next holidays. The application should be based on real data about:
+
+Weather
+Hotels in the area
+The application should then be able to recommend the best destinations and hotels based on the above variables at any given time.
+
+## Goals 🎯
+As the project has just started, your team doesn't have any data that can be used to create this application. Therefore, your job will be to:
+
+Scrape data from destinations
+Get weather data from each destination
+Get hotels' info about each destination
+Store all the information above in a data lake
+Extract, transform and load cleaned data from your datalake to a data warehouse
+
+## Scope of this project 🖼️
+Marketing team wants to focus first on the best cities to travel to in France. According One Week In.com here are the top-35 cities to visit in France:
+["Mont Saint Michel",
+"St Malo",
+"Bayeux",
+"Le Havre",
+"Rouen",
+"Paris",
+"Amiens",
+"Lille",
+"Strasbourg",
+"Chateau du Haut Koenigsbourg",
+"Colmar",
+"Eguisheim",
+"Besancon",
+"Dijon",
+"Annecy",
+"Grenoble",
+"Lyon",
+"Gorges du Verdon",
+"Bormes les Mimosas",
+"Cassis",
+"Marseille",
+"Aix en Provence",
+"Avignon",
+"Uzes",
+"Nimes",
+"Aigues Mortes",
+"Saintes Maries de la mer",
+"Collioure",
+"Carcassonne",
+"Ariege",
+"Toulouse",
+"Montauban",
+"Biarritz",
+"Bayonne",
+"La Rochelle"]
+
+## Helpers 🦮
+To help you achieve this project, here are a few tips that should help you
+
+#### Get weather data with an API
+Use https://nominatim.org/ to get the gps coordinates of all the cities (no subscription required) Documentation : https://nominatim.org/release-docs/develop/api/Search/
+
+Use https://openweathermap.org/appid (you have to subscribe to get a free apikey) and https://openweathermap.org/api/one-call-api to get some information about the weather for the 35 cities and put it in a DataFrame
+
+Determine the list of cities where the weather will be the nicest within the next 7 days For example, you can use the values of daily.pop and daily.rain to compute the expected volume of rain within the next 7 days... But it's only an example, actually you can have different opinions on a what a nice weather would be like 😎 Maybe the most important criterion for you is the temperature or humidity, so feel free to change the rules !
+
+Save all the results in a .csv file, you will use it later 😉 You can save all the informations that seem important to you ! Don't forget to save the name of the cities, and also to create a column containing a unique identifier (id) of each city (this is important for what's next in the project)
+
+Use plotly to display the best destinations on a map
+
+#### Scrape Booking.com
+Since BookingHoldings doesn't have aggregated databases, it will be much faster to scrape data directly from booking.com
+
+You can scrap as many information asyou want, but we suggest that you get at least:
+
+hotel name,
+Url to its booking.com page,
+Its coordinates: latitude and longitude
+Score given by the website users
+Text description of the hotel
+
+#### Create your data lake using S3
+Once you managed to build your dataset, you should store into S3 as a csv file.
+
+#### ETL
+Once you uploaded your data onto S3, it will be better for the next data analysis team to extract clean data directly from a Data Warehouse. Therefore, create a SQL Database using AWS RDS, extract your data from S3 and store it in your newly created DB.
 
 
-### Guide d'Utilisation 
-
-**Prérequis:**
-- Python doit être installé sur votre système.
-- Assurez-vous d'avoir une connexion Internet.
-
-**Étapes:**
-
-1. **Configuration de l'Environnement:**
-   - Exécutez `pip install -r requirements.txt` pour installer les bibliothèques nécessaires.
-
-2. **Clés d'API:**
-   - Obtenez les clés d'API pour l'accès aux données météorologiques et aux données de villes.
-     - [Données météorologiques](https://api.openweathermap.org)
-     - [Données de villes](https://nominatim.openstreetmap.org)
-
-3. **Exécution des Scripts:**
-   - Utilisez `API_city_weather.ipynb` pour accéder aux données météorologiques.
-   - Lancez `main_scrap.py` pour le web scraping des données sur les URL et les hôtels.
-   - Utilisez `main.ipynb` pour accéder aux résultats des deux scripts précédents.
-
-4. **ETL:**
-   - Utilisez `DataLake_ETL.ipynb` pour effectuer les opérations d'Extraction, Transformation et Chargement.
-
-5. **Gestion des Données:**
-   - Les données sont stockées dans le dossier `datas/`.
-   - Utilisez `config.py` pour définir des chemins relatifs plus robustes pour la gestion des données.
 
 
 
-## Resultats
-<div style="text-align: left;">
-  <img src="Result_screen/TOP5.png" style="width:400px; margin-right:30px;" />
-  <img src="Result_screen/Hotels.png" style="width:400px;" />
-  <img src="Result_screen/City_hotels.png" style="width:400px;" />
-  <img src="Result_screen/bayonne.png" style="width:400px;" />
-  <img src="Result_screen/hover.png" style="width:400px;" />
-</div>
+## Deliverable 📬
+To complete this project, your team should deliver:
 
+A .csv file in an S3 bucket containing enriched information about weather and hotels for each french city
 
-## Aller plus loin
+A SQL Database where we should be able to get the same cleaned data from S3
 
-Le projet peut être rendu plus configurable en termes de :
-- Type de voyage : nombre de jours de voyage, nombre de personnes, destinations spécifiques choisie par l'utilisateur.
-- Préférences météorologiques : préférence pour la pluie, température minimale/maximale, vent fort.
-- Préférences d'hébergement : nombre de chambres, note minimale dans une catégorie, équipements spécifiques.
+Two maps where you should have a Top-5 destinations and a Top-20 hotels in the area. You can use plotly or any other library to do so. It should look something like this:
+
